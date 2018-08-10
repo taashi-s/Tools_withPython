@@ -1,4 +1,5 @@
 image/Inputs/*
 image/Outputs/*
+.DS_Store
 
 !.gitkeep
