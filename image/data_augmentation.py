@@ -51,7 +51,7 @@ def image_data_augmentaiton(file_name, input_img, teacher_img):
             deg = 10 * (k + 1)
             bases_3.append((name + '_%03d' % deg, rotate_image(inp_img, deg), rotate_image(tea_img, deg)))
 
-    data = bases_4
+    data = bases_3
     for name, inp_img, tea_img in data:
         #print('data augmentation : ', name)
         input_save_path = os.path.join(INPUTS_DIR, name + '.png')
