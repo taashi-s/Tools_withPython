@@ -41,11 +41,11 @@ def show_compare_images(compare_files, compare_item_bases):
 
 
 def show_compare_image(compare_file, compare_item_bases):
-    fname = os.path.basename(compare_file)
+    fname, ext = os.path.splitext(os.path.basename(compare_file))
 
     imgPlot = ImageLinePlotter(0, len(compare_item_bases))
     for item_base in compare_item_bases:
-        item_path = os.path.join(item_base.path, item_base.prefix + fname + item_base.surfix)
+        item_path = os.path.join(item_base.path, item_base.prefix + fname + item_base.surfix + ext)
         img = cv2.imread(item_path)
         if img is None:
             print('Image is None : ', item_path)
