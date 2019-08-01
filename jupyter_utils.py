@@ -18,10 +18,12 @@ from tqdm import tqdm
 DISPLAY_SIZE = 6
 
 class CompareItemBase():
-    def __init__(self, path, display_name, surfix=''):
+    def __init__(self, path, display_name, prefix='', surfix=''):
         self.path = path
         self.display_name = display_name
         self.surfix = surfix
+        self.prefix = prefix
+
 
 def hide_ax_frame(ax):
         ax.tick_params(labelbottom=False, bottom=False, labelleft=False, left=False)
@@ -31,16 +33,36 @@ def hide_ax_frame(ax):
         plt.gca().spines['right'].set_visible(False)
         plt.gca().spines['top'].set_visible(False)
         plt.gca().spines['bottom'].set_visible(False)
-        
 
-def show_compare_images(original_file_paths, compare_item_bases, original_display_name='origin'
+
+def show_compare_images(compare_files, compare_item_bases):
+    for file in compare_files:
+        show_compare_image(file, compare_item_bases)
+
+
+def show_compare_image(compare_file, compare_item_bases):
+    fname = os.path.basename(compare_file)
+
+    imgPlot = ImageLinePlotter(0, len(compare_item_bases))
+    for item_base in compare_item_bases:
+        item_path = os.path.join(item_base.path, item_base.prefix + fname + item_base.surfix)
+        img = cv2.imread(item_path)
+        if img is None:
+            print('Image is None : ', item_path)
+            continue
+        imgPlot.add_image(img, title=item_base.display_name)
+    imgPlot.show_plot()
+
+
+
+def show_compare_images_old(original_file_paths, compare_item_bases, original_display_name='origin'
                                                  , hide_frame=True, padding_item=0, row_data_count=1, with_data_number=True):
     if len(original_file_paths) < 1:
         print('compare data is Nothing .')
         return
     if len(compare_item_bases) < 1:
         print('compare path is Nothing .')
-    
+
     compare_item_bases.insert(0, CompareItemBase(os.path.dirname(original_file_paths[0]), original_display_name))
 
     for k, origin_path in enumerate(original_file_paths):
